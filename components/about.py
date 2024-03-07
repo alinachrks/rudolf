@@ -8,7 +8,7 @@ def app():
     st.title("О приложении")
 
     # Вставляем изображение после заголовка
-    st.image("img/about.png", use_column_width=True)
+    # st.image("img/about.png", use_column_width=True)
 
     # Описание приложения
     st.markdown("""
@@ -51,6 +51,6 @@ def app():
     """)
 
     with st.sidebar:
-        with open("data/dino.json", "r", errors='ignore') as f:
+        with open("animation/car.json", "r", errors='ignore') as f:
             data = json.load(f)
         st_lottie(data)

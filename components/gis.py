@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 from openai import OpenAI
 from streamlit_lottie import st_lottie
 import json
-from components.cofig_dialog import *
+from components.config_dialog import *
 
 # Create an instance of the API client
 
@@ -43,7 +43,7 @@ def app():
         "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
         "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
         "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
-        with open("data/bot.json", "r", errors='ignore') as f:
+        with open("animation/dino.json", "r", errors='ignore') as f:
             data = json.load(f)
         st_lottie(data)
 

@@ -8,4 +8,4 @@ def app():
     st.title("О приложении")
 
     # Вставляем изображение после заголовка
-    st.image("img/about.png", use_column_width=True)
+    # st.image("img/about.png", use_column_width=True)
