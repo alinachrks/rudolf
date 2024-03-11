@@ -28,7 +28,7 @@ class MultiApp:
         with st.sidebar:
             app = option_menu(
                 menu_title='📈 Analyst Hamster',
-                options=['🏷️ Экспер',  
+                options=['🏷️ Эксперт',  
                          '🗺️ Карта + AI', '📖 О приложении'],
                 icons=['house-garden','house-garden','house-garden'],
                 menu_icon='house-garden',

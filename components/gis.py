@@ -35,39 +35,36 @@ def app():
     components.html(mapbox_iframe_html, height=450)
 
     
-    st.subheader("Хомяк-аналитик на связи")
+    # st.subheader("Хомяк-аналитик на связи")
 
-    # Sidebar with OpenAI API key input
-    with st.sidebar:
-        openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
-        "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
-        "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
-        "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
-        with open("animation/dino.json", "r", errors='ignore') as f:
-            data = json.load(f)
-        st_lottie(data)
+    # # Sidebar with OpenAI API key input
+    # with st.sidebar:
+    #     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+    #     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
+    #     "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
+    #     "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
+    #     with open("animation/dino.json", "r", errors='ignore') as f:
+    #         data = json.load(f)
+    #     st_lottie(data)
 
-    # Main content
-    st.title("📎 Бот-урбанист")
-    st.caption("💭 Задай вопросы о городе")
 
-    if "messages" not in st.session_state:
-        st.session_state["messages"] = [{"role": "assistant", "content": INITIAL_PROMPT}]
+    # if "messages" not in st.session_state:
+    #     st.session_state["messages"] = [{"role": "assistant", "content": INITIAL_PROMPT}]
 
-    for msg in st.session_state.messages:
-        st.chat_message(msg["role"]).write(msg["content"])
+    # for msg in st.session_state.messages:
+    #     st.chat_message(msg["role"]).write(msg["content"])
 
-    if prompt := st.chat_input():
-        # Добавляем контекст о городе Алматы к сообщению пользователя
-        st.session_state.messages.append({"role": "user", "content": prompt + " в стиле доброго и милого " + NLP_MODEL_NAME})
-        st.chat_message("user").write(prompt)
+    # if prompt := st.chat_input():
+    #     # Добавляем контекст о городе Алматы к сообщению пользователя
+    #     st.session_state.messages.append({"role": "user", "content": prompt + " в стиле доброго и милого " + NLP_MODEL_NAME})
+    #     st.chat_message("user").write(prompt)
 
-        try:
-            client = OpenAI(api_key=openai_api_key)
-            # Создаем запрос с контекстом о городе Алматы
-            response = client.chat.completions.create(model=NLP_MODEL_NAME, messages=st.session_state.messages)
-            msg = response.choices[0].message.content
-            st.session_state.messages.append({"role": "assistant", "content": msg})
-            st.chat_message("assistant").write(msg)
-        except Exception as e:
-            st.error(f"OpenAI Error: {e}")
+    #     try:
+    #         client = OpenAI(api_key=openai_api_key)
+    #         # Создаем запрос с контекстом о городе Алматы
+    #         response = client.chat.completions.create(model=NLP_MODEL_NAME, messages=st.session_state.messages)
+    #         msg = response.choices[0].message.content
+    #         st.session_state.messages.append({"role": "assistant", "content": msg})
+    #         st.chat_message("assistant").write(msg)
+    #     except Exception as e:
+    #         st.error(f"OpenAI Error: {e}")
