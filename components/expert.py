@@ -156,10 +156,10 @@ def app():
                     reply_text, image_prompt = chatbot_response.split("Description:")
                 else:
                     reply_text = chatbot_response
-                    image_prompt = f"Photorealistic image of a cat. {reply_text}"
+                    image_prompt = f"Photorealistic image of a stylish hamster sitting in a chair in a cozy room with a vinyl record player and books. {reply_text}"
 
-                if reply_text.startswith("Meow: "):
-                    reply_text = reply_text.split("Meow: ", 1)[1]
+                if reply_text.startswith("Hmmm: "):
+                    reply_text = reply_text.split("Mm..: ", 1)[1]
 
                 # Step 2: Generate the image using Stable Diffusion
                 api_res = stability_api.generate(
@@ -178,7 +178,7 @@ def app():
                 for resp in api_res:
                     for artifact in resp.artifacts:
                         if artifact.finish_reason == generation.FILTER:
-                            st.warning("Your request activated the API's safety filters and could not be processed. Please modify the prompt and try again.")
+                            st.warning("Twoje żądanie aktywowało filtry bezpieczeństwa interfejsu API i nie mogło zostać przetworzone. Zmodyfikuj monit i spróbuj ponownie.")
                             # st.stop()
                         if artifact.type == generation.ARTIFACT_IMAGE:
                             b64str = base64.b64encode(artifact.binary).decode("utf-8")
@@ -237,8 +237,8 @@ def app():
 
 
     # Define main layout
-    st.title("Meow")
-    st.subheader("I iz CatGDP, meow-speak anypawdy to me and I'll purr-ly there with a paw-some meow reply. 🐱")
+    st.title("Analityk chomików")
+    st.subheader("Ja pierdolę, patrzcie co spotkałem. Bóbr, kurwa! Ja pierdolę, jakie bydlę! Bóbr! Ej, kurwa, bóbr! Bóbr, nie spierdalaj, mordo! Chodź tu, kurwa, do mnie, bóbr! Ale jesteś, kurwa, duży ty! Bóbr! Ja pierdolę, pierwszy raz w życiu widzę bobra! ")
     st.subheader("")
     chat_box = st.container()
     st.write("")
@@ -250,8 +250,9 @@ def app():
         <div align=right><small>
         Page views: <img src="https://www.cutercounter.com/hits.php?id=hvxndaff&nd=5&style=1" border="0" alt="hit counter"><br>
         Unique visitors: <img src="https://www.cutercounter.com/hits.php?id=hxndkqx&nd=5&style=1" border="0" alt="website counter"><br>
-        GitHub <a href="https://github.com/tipani86/CatGDP"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/tipani86/CatGDP?style=social"></a>
+        GitHub <a href="https://github.com/alinachrks/rudolf/tree/master"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/alinachrks/rudolf?style=social"></a>
         </small></div>
+
         """, unsafe_allow_html=True)
 
     # if DEBUG:
@@ -286,7 +287,7 @@ def app():
 
     # Define an input box for human prompts
     with prompt_box:
-        human_prompt = st.text_input("Purr:", value="", key=f"text_input_{len(st.session_state.LOG)}")
+        human_prompt = st.text_input("Bzzz:", value="", key=f"text_input_{len(st.session_state.LOG)}")
 
 
     # Gate the subsequent chatbot response to only when the user has entered a prompt
