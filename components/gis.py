@@ -68,3 +68,7 @@ def app():
     #         st.chat_message("assistant").write(msg)
     #     except Exception as e:
     #         st.error(f"OpenAI Error: {e}")
+    with st.sidebar:
+        with open("animation/bird_music.json", "r", errors='ignore') as f:
+            data = json.load(f)
+        st_lottie(data)

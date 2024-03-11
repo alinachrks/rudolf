@@ -10,6 +10,9 @@ import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 from google.protobuf.json_format import MessageToJson
 from components.config_dialog import *
 from components.utils import *
+from streamlit_lottie import st_lottie
+import json
+
 
 def app():
 # Set global variables
@@ -71,18 +74,18 @@ def app():
     ) -> str:
         # Formats the message in an chat fashion (user right, reply left)
         div_class = "AI-line"
-        color = "rgb(240, 242, 246)"
+        color = "rgb(236, 235, 229)"
         file_path = os.path.join(ROOT_DIR, "src", "assets", "AI_icon.png")
         src = f"data:image/gif;base64,{get_local_img(file_path)}"
         if align == "right":
             div_class = "human-line"
-            color = "rgb(165, 239, 127)"
+            color = "rgb(177, 206, 224)"
             if "USER" in st.session_state:
                 src = st.session_state.USER.avatar_url
             else:
                 file_path = os.path.join(ROOT_DIR, "src", "assets", "user_icon.png")
                 src = f"data:image/gif;base64,{get_local_img(file_path)}"
-        icon_code = f"<img class='chat-icon' src='{src}' width=32 height=32 alt='avatar'>"
+        icon_code = f"<img class='chat-icon' src='{src}' width=128 height=128 alt='avatar'>"
         formatted_contents = f"""
         <div class="{div_class}">
             {icon_code}
@@ -120,7 +123,7 @@ def app():
                 # This is one of those small three-dot animations to indicate the bot is "writing"
                 writing_animation = st.empty()
                 file_path = os.path.join(ROOT_DIR, "src", "assets", "loading.gif")
-                writing_animation.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;<img src='data:image/gif;base64,{get_local_img(file_path)}' width=30 height=10>", unsafe_allow_html=True)
+                writing_animation.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;<img src='data:image/gif;base64,{get_local_img(file_path)}' width=50 height=50>", unsafe_allow_html=True)
 
                 # Step 1: Generate the AI-aided image prompt using ChatGPT API
                 # (but we first need to generate the prompt for ChatGPT!)
@@ -156,10 +159,10 @@ def app():
                     reply_text, image_prompt = chatbot_response.split("Description:")
                 else:
                     reply_text = chatbot_response
-                    image_prompt = f"Photorealistic image of a stylish hamster sitting in a chair in a cozy room with a vinyl record player and books. {reply_text}"
+                    image_prompt = f"Photorealistic image of a stylish hamster on a trip. {reply_text}"
 
-                if reply_text.startswith("Hmmm: "):
-                    reply_text = reply_text.split("Mm..: ", 1)[1]
+                if reply_text.startswith("אני מקשיב לך: "):
+                    reply_text = reply_text.split("Ти сьогодні дивно дивишся: ", 1)[1]
 
                 # Step 2: Generate the image using Stable Diffusion
                 api_res = stability_api.generate(
@@ -238,7 +241,7 @@ def app():
 
     # Define main layout
     st.title("Analityk chomików")
-    st.subheader("Ja pierdolę, patrzcie co spotkałem. Bóbr, kurwa! Ja pierdolę, jakie bydlę! Bóbr! Ej, kurwa, bóbr! Bóbr, nie spierdalaj, mordo! Chodź tu, kurwa, do mnie, bóbr! Ale jesteś, kurwa, duży ty! Bóbr! Ja pierdolę, pierwszy raz w życiu widzę bobra! ")
+    st.write("Ja pierdolę, patrzcie co spotkałem. Bóbr, kurwa! Ja pierdolę, jakie bydlę! Bóbr! Ej, kurwa, bóbr! Bóbr, nie spierdalaj, mordo! Chodź tu, kurwa, do mnie, bóbr! Ale jesteś, kurwa, duży ty! Bóbr! Ja pierdolę, pierwszy raz w życiu widzę bobra! ")
     st.subheader("")
     chat_box = st.container()
     st.write("")
@@ -248,11 +251,11 @@ def app():
     with footer:
         st.markdown("""
         <div align=right><small>
-        Page views: <img src="https://www.cutercounter.com/hits.php?id=hvxndaff&nd=5&style=1" border="0" alt="hit counter"><br>
-        Unique visitors: <img src="https://www.cutercounter.com/hits.php?id=hxndkqx&nd=5&style=1" border="0" alt="website counter"><br>
-        GitHub <a href="https://github.com/alinachrks/rudolf/tree/master"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/alinachrks/rudolf?style=social"></a>
+        Page views: <img src="https://www.cutercounter.com/hits.php?id=hxpaapo&nd=5&style=1" border="0" alt="best free website hit counter"></a><br>  
+        Unique visitors: <img src="https://www.cutercounter.com/hits.php?id=hxpaapq&nd=5&style=1" border="0" alt="hit counter"></a><br>  
+        GitHub <a href="https://github.com/alinachrks/rudolf/tree/master"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/alinachrks/rudolf?style=social"></a>  
         </small></div>
-
+                    
         """, unsafe_allow_html=True)
 
     # if DEBUG:
@@ -287,7 +290,7 @@ def app():
 
     # Define an input box for human prompts
     with prompt_box:
-        human_prompt = st.text_input("Bzzz:", value="", key=f"text_input_{len(st.session_state.LOG)}")
+        human_prompt = st.text_input("Треба подумати:", value="", key=f"text_input_{len(st.session_state.LOG)}")
 
 
     # Gate the subsequent chatbot response to only when the user has entered a prompt
@@ -304,3 +307,7 @@ def app():
                 if st.button("Show text input field"):
                     st.experimental_rerun()
 
+    with st.sidebar:
+        with open("animation/bird.json", "r", errors='ignore') as f:
+            data = json.load(f)
+        st_lottie(data)
