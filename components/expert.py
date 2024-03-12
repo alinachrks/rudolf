@@ -298,14 +298,14 @@ def app():
         run_res = asyncio.run(main(human_prompt))
         # if run_res['status'] == 0 and not DEBUG:
         if run_res['status'] == 0:
-            st.experimental_rerun()
+            st.rerun()
 
         else:
             if run_res['status'] != 0:
                 st.error(run_res['message'])
             with prompt_box:
                 if st.button("Show text input field"):
-                    st.experimental_rerun()
+                    st.rerun()
 
     with st.sidebar:
         with open("animation/bird.json", "r", errors='ignore') as f:
