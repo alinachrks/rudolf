@@ -86,7 +86,7 @@ def app():
             else:
                 file_path = os.path.join(ROOT_DIR, "src", "assets", "user_icon.png")
                 src = f"data:image/gif;base64,{get_local_img(file_path)}"
-        icon_code = f"<img class='chat-icon' src='{src}' width=128 height=64 alt='avatar'>"
+        icon_code = f"<img class='chat-icon' src='{src}' width=128 height=128 alt='avatar'>"
         formatted_contents = f"""
         <div class="{div_class}">
             {icon_code}
@@ -123,7 +123,7 @@ def app():
                 # This is one of those small three-dot animations to indicate the bot is "writing"
                 writing_animation = st.empty()
                 file_path = os.path.join(ROOT_DIR, "src", "assets", "loading.gif")
-                writing_animation.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;<img src='data:image/gif;base64,{get_local_img(file_path)}' width=50 height=50>", unsafe_allow_html=True)
+                writing_animation.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;<img src='data:image/gif;base64,{get_local_img(file_path)}' width=128 height=64>", unsafe_allow_html=True)
 
                 # Step 1: Generate the AI-aided image prompt using ChatGPT API
                 # (but we first need to generate the prompt for ChatGPT!)
