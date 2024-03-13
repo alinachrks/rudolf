@@ -7,8 +7,8 @@ import json
 
 # Apply theme from the config file
 st.set_page_config(
-    page_title="Analyst Hamster",
-    page_icon="📈",
+    page_title="I kontakt",
+    page_icon="📞",
     layout="centered",
     initial_sidebar_state="expanded"
 )
@@ -27,9 +27,9 @@ class MultiApp:
         # Create a sidebar option menu
         with st.sidebar:
             app = option_menu(
-                menu_title='📈 Analyst Hamster',
-                options=['🏷️ Эксперт',  
-                         '🗺️ Карта + AI', '📖 О приложении'],
+                menu_title='📞 I kontakt',
+                options=['🗨️ Deskundige',  
+                         '🗺️ Kaart', '📖 Over de applicatie'],
                 icons=['house-garden','house-garden','house-garden'],
                 menu_icon='house-garden',
                 default_index=0,  # Change the default index to 0 for "🏠 Прогноз стоимости"
@@ -44,11 +44,11 @@ class MultiApp:
 
 
         # Display selected app based on user choice
-        if app == "🏷️ Эксперт":
+        if app == "🗨️ Deskundige":
             expert.app()
-        elif app == '🗺️ Карта + AI':
+        elif app == '🗺️ Kaart':
             gis.app()
-        elif app == '📖 О приложении':
+        elif app == '📖 Over de applicatie':
             about.app()
          
 
@@ -57,9 +57,9 @@ class MultiApp:
 multi_app = MultiApp()
 
 # Add your apps to the MultiApp instance
-multi_app.add_app("🏷️ Эксперт", expert.app)
-multi_app.add_app("🗺️ Карта + AI", gis.app)
-multi_app.add_app("📖 О приложении", about.app)
+multi_app.add_app("🗨️ Deskundige", expert.app)
+multi_app.add_app("🗺️ Kaart", gis.app)
+multi_app.add_app("📖 Over de applicatie", about.app)
 
 # Run the MultiApp
 multi_app.run()

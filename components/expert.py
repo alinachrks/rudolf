@@ -86,7 +86,7 @@ def app():
             else:
                 file_path = os.path.join(ROOT_DIR, "src", "assets", "user_icon.png")
                 src = f"data:image/gif;base64,{get_local_img(file_path)}"
-        icon_code = f"<img class='chat-icon' src='{src}' width=128 height=128 alt='avatar'>"
+        icon_code = f"<img class='chat-icon' src='{src}' width=128 height=64 alt='avatar'>"
         formatted_contents = f"""
         <div class="{div_class}">
             {icon_code}
@@ -97,7 +97,7 @@ def app():
         """
         return formatted_contents
 
-    async def main(human_prompt: str, selected_character: str) -> dict:
+    async def main(human_prompt: str, selected_character: str = "Default") -> dict:
         res = {'status': 0, 'message': "Success"}
         try:
 
@@ -252,7 +252,7 @@ def app():
 
     # # Создаем кнопки с персонажами
     # Inside your app() function where the character selection is handled
-    selected_character = st.radio("Выберите персонажа:", list(INITIAL_PROMPTS.keys()))
+    selected_character = st.radio("Избери:", [""] + list(INITIAL_PROMPTS.keys()))
     print("Selected character:", selected_character)  # Add this line for debugging
 
     chat_box = st.container()
