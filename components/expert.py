@@ -16,6 +16,7 @@ import json
 
 def app():
 # Set global variables
+
     ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -96,8 +97,7 @@ def app():
         """
         return formatted_contents
 
-
-    async def main(human_prompt: str) -> dict:
+    async def main(human_prompt: str, selected_character: str) -> dict:
         res = {'status': 0, 'message': "Success"}
         try:
 
@@ -129,7 +129,8 @@ def app():
                 # (but we first need to generate the prompt for ChatGPT!)
                 prompt_res = await generate_prompt_from_memory_async(
                     TOKENIZER,
-                    st.session_state.MEMORY
+                    st.session_state.MEMORY,
+                    selected_character
                 )
 
                 # if DEBUG:
@@ -159,7 +160,9 @@ def app():
                     reply_text, image_prompt = chatbot_response.split("Description:")
                 else:
                     reply_text = chatbot_response
-                    image_prompt = f"Photorealistic image of a stylish hamster on a trip. {reply_text}"
+                    # image_prompt = f"Photorealistic image of a stylish hamster on a trip. {reply_text}"
+                    selected_character_info = INITIAL_PROMPTS.get(selected_character, "Default prompt if button name is not found")
+                    image_prompt = f"Photorealistic image of {selected_character_info}. {reply_text}"
 
                 if reply_text.startswith("אני מקשיב לך: "):
                     reply_text = reply_text.split("Ти сьогодні дивно дивишся: ", 1)[1]
@@ -243,6 +246,15 @@ def app():
     st.title("Analityk chomików")
     st.write("Ja pierdolę, patrzcie co spotkałem. Bóbr, kurwa! Ja pierdolę, jakie bydlę! Bóbr! Ej, kurwa, bóbr! Bóbr, nie spierdalaj, mordo! Chodź tu, kurwa, do mnie, bóbr! Ale jesteś, kurwa, duży ty! Bóbr! Ja pierdolę, pierwszy raz w życiu widzę bobra! ")
     st.subheader("")
+    
+    # Создаем кнопки с персонажами
+    # selected_character = st.radio("Выберите персонажа:", list(INITIAL_PROMPTS.keys()))
+
+    # # Создаем кнопки с персонажами
+    # Inside your app() function where the character selection is handled
+    selected_character = st.radio("Выберите персонажа:", list(INITIAL_PROMPTS.keys()))
+    print("Selected character:", selected_character)  # Add this line for debugging
+
     chat_box = st.container()
     st.write("")
     prompt_box = st.empty()
@@ -267,11 +279,24 @@ def app():
     st.markdown(get_css(), unsafe_allow_html=True)
 
 
+    # # # Создаем кнопки с персонажами
+    # # Inside your app() function where the character selection is handled
+    # selected_character = st.radio("Выберите персонажа:", list(INITIAL_PROMPTS.keys()))
+    # print("Selected character:", selected_character)  # Add this line for debugging
+
+
+    # Обновляем выбранный персонаж в состоянии сеанса
+    st.session_state.selected_character = selected_character
+
+    # Получаем начальное приветственное сообщение для выбранного персонажа
+    initial_prompt = INITIAL_PROMPTS.get(selected_character, "Default initial prompt")
+
     # Initialize/maintain a chat log and chat memory in Streamlit's session state
     # Log is the actual line by line chat, while memory is limited by model's maximum token context length
     if "MEMORY" not in st.session_state:
-        st.session_state.MEMORY = [{'role': "system", 'content': INITIAL_PROMPT}]
-        st.session_state.LOG = [INITIAL_PROMPT]
+        st.session_state.MEMORY = [{'role': "system", 'content': initial_prompt}]
+        st.session_state.LOG = [initial_prompt]
+
 
 
     # Render chat history so far
@@ -295,7 +320,7 @@ def app():
 
     # Gate the subsequent chatbot response to only when the user has entered a prompt
     if len(human_prompt) > 0:
-        run_res = asyncio.run(main(human_prompt))
+        run_res = asyncio.run(main(human_prompt, selected_character))  # Передаем выбранного персонажа в функцию main
         # if run_res['status'] == 0 and not DEBUG:
         if run_res['status'] == 0:
             st.rerun()

@@ -3,8 +3,6 @@ from openai import AsyncOpenAI
 aclient = AsyncOpenAI()
 from components.config_dialog import *
 
-
-# A wrapper function for OpenAI's Chat Completion API async call with default values from app config
 async def get_chatbot_reply_async(
     messages: list,
     model: str = NLP_MODEL_NAME,
@@ -32,13 +30,10 @@ async def get_chatbot_reply_async(
     return first_choice_message.content.strip()
 
 
-
-
-
-# Make sure the entered prompt adheres to the model max context length, and summarize if necessary
 async def generate_prompt_from_memory_async(
     tokenizer,
-    memory: list
+    memory: list,
+    character: str
 ) -> dict:
     res = {'status': 0, 'message': 'success', 'data': None}
     # Check whether tokenized memory so far + max reply length exceeds the max possible tokens for the model.
@@ -55,7 +50,7 @@ async def generate_prompt_from_memory_async(
         # We write a new prompt asking the model to summarize this middle part
         summarizable_memory += [{
             'role': "system",
-            'content': PRE_SUMMARY_PROMPT
+            'content': PRE_SUMMARY_PROMPTS.get(character, "Default prompt if character is not found")
         }]
         summarizable_str = "\n".join(x['content'] for x in summarizable_memory)
         summarizable_tokens = tokenizer.tokenize(summarizable_str)
@@ -84,9 +79,9 @@ async def generate_prompt_from_memory_async(
                 new_prompt = "\n".join(x['content'] for x in new_memory)
                 tokens_used += len(tokenizer.tokenize(new_prompt))
 
-                if DEBUG:
-                    print("Summarization triggered. New prompt:")
-                    print(new_memory)
+                # if DEBUG:
+                #     print("Summarization triggered. New prompt:")
+                #     print(new_memory)
 
                 # Build the output
                 res['data'] = {
