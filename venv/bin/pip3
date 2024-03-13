@@ -1,4 +1,4 @@
-#!/home/alina/rudolf/venv/bin/python3
+#!/home/alina/rudolf/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
