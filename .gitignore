@@ -1,2 +1,5 @@
+# .gitignore
 .env
 venv/
+# Исключение больших файлов
+pyarrow/libarrow.so.1500
