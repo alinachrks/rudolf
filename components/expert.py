@@ -252,7 +252,7 @@ def app():
 
     # # Создаем кнопки с персонажами
     # Inside your app() function where the character selection is handled
-    selected_character = st.radio("Избери:", [""] + list(INITIAL_PROMPTS.keys()))
+    selected_character = st.radio("Избери:", list(INITIAL_PROMPTS.keys()))
     print("Selected character:", selected_character)  # Add this line for debugging
 
     chat_box = st.container()
